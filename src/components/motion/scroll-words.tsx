@@ -3,8 +3,9 @@
 import { motion, useScroll, useTransform, type MotionValue } from 'motion/react'
 import { useRef } from 'react'
 
+// 0.55 is the floor: unread words still pass WCAG AA large-text contrast (about 3.5:1 on paper).
 function Word({ progress, range, children }: { progress: MotionValue<number>; range: [number, number]; children: string }) {
-  const opacity = useTransform(progress, range, [0.16, 1])
+  const opacity = useTransform(progress, range, [0.55, 1])
   return (
     <motion.span style={{ opacity }} className="rm-static inline-block">
       {children}
