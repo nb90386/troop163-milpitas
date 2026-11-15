@@ -190,7 +190,7 @@ function Lightbox({ photo, list, onClose, onStep }: { photo: Photo; list: Photo[
       role="dialog"
       aria-modal="true"
       aria-label="Photo viewer"
-      className="on-dark fixed inset-0 z-[var(--z-lightbox)] flex flex-col bg-night/97 text-paper"
+      className="on-dark fixed inset-0 z-[var(--z-lightbox)] flex flex-col bg-night text-paper"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

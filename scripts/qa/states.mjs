@@ -1,0 +1,22 @@
+// Captures interaction states on a deployed URL: node scripts/qa/states.mjs <base> <outDir>
+import fs from 'node:fs';
+import { launch } from '../research/browser.mjs';
+const [, , base, out] = process.argv;
+fs.mkdirSync(out, { recursive: true });
+const b = await launch();
+const m = await b.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+await m.goto(base + '/', { waitUntil: 'load' }); await m.waitForTimeout(1500);
+await m.getByRole('button', { name: 'Menu' }).click(); await m.waitForTimeout(900);
+await m.screenshot({ path: `${out}/mobile-menu.png` });
+await m.keyboard.press('Escape');
+await m.goto(base + '/gallery', { waitUntil: 'load' }); await m.waitForTimeout(1200);
+await m.getByRole('button', { name: /^After dark/ }).click(); await m.waitForTimeout(900);
+await m.screenshot({ path: `${out}/mobile-gallery-filter.png` });
+await m.locator('main ul li button').first().click(); await m.waitForTimeout(1800);
+await m.screenshot({ path: `${out}/mobile-lightbox.png` });
+const d = await b.newPage({ viewport: { width: 1440, height: 900 } });
+await d.goto(base + '/gallery?photo=sail-lone-boat', { waitUntil: 'load' }); await d.waitForTimeout(2000);
+await d.screenshot({ path: `${out}/desktop-lightbox.png` });
+await d.goto(base + '/missing-page', { waitUntil: 'load' }); await d.waitForTimeout(1500);
+await d.screenshot({ path: `${out}/desktop-404.png` });
+await b.close();

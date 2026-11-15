@@ -18,7 +18,6 @@ for (const vp of vpArg.split(',')) {
     await page.waitForTimeout(1600);
     const name = (p === '/' ? 'home' : p.replace(/\//g, '_').replace(/^_/, '')) + `-${width}`;
     await page.screenshot({ path: `${out}/${name}-top.png` });
-    const h = await page.evaluate(() => document.documentElement.scrollHeight);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     if (overflow > 0) errors.push(`[${vp}] ${p} horizontal overflow ${overflow}px`);
     for (let y = 0; y < (await page.evaluate(() => document.documentElement.scrollHeight)); y += Math.round(height * 0.6)) { await page.evaluate((yy) => window.scrollTo(0, yy), y); await page.waitForTimeout(160); }

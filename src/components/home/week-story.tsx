@@ -42,7 +42,6 @@ export function WeekStory({ days, ground }: { days: WeekCard[]; ground: PhotoT }
     const measure = () => {
       const vw = window.innerWidth
       const vh = window.innerHeight
-      const trackW = days.length * CARD_W + (days.length - 1) * GAP
       // First card enters to the right of the heading; the last one finishes centred.
       const start = Math.max(vw * 0.5, 620)
       const end = vw / 2 - CARD_W / 2 - (days.length - 1) * (CARD_W + GAP)
