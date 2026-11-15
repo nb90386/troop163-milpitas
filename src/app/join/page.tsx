@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { FaqList } from '@/components/faq-list'
 import { PageHeader } from '@/components/page-header'
 import { Photo } from '@/components/photo'
+import { PhotoBand } from '@/components/photo-band'
 import { faqs } from '@/content/faq'
 import { site, visitMail } from '@/content/site'
 import { pick } from '@/lib/photos'
@@ -86,6 +87,8 @@ export default function JoinPage() {
           </a>
         </div>
       </section>
+
+      <PhotoBand photo={pick('sail-rocks')} line="No experience needed." />
 
       <section aria-labelledby="who" className="bg-forest text-forest-ink on-dark">
         <div className="frame grid-12 gap-y-10 py-[var(--section)]">

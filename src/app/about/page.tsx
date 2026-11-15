@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PageHeader } from '@/components/page-header'
 import { Photo } from '@/components/photo'
+import { PhotoBand } from '@/components/photo-band'
 import { site } from '@/content/site'
 import { pick } from '@/lib/photos'
 
@@ -93,6 +94,8 @@ export default function AboutPage() {
           ))}
         </ol>
       </section>
+
+      <PhotoBand photo={pick('campfire-silhouettes')} line="“Have fun!” is the whole motto." />
 
       <section aria-labelledby="family" className="on-dark bg-forest text-forest-ink">
         <div className="frame grid-12 gap-y-10 py-[var(--section)]">

@@ -111,7 +111,7 @@ test('content stays visible with reduced motion', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Seven days at Hi-Sierra' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Home', level: 3, exact: true })).toBeVisible()
   await page.getByRole('heading', { name: 'What you’ll actually do' }).scrollIntoViewIfNeeded()
-  await expect(page.getByRole('heading', { name: 'Get out on the water' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Sail a mountain lake' })).toBeVisible()
 })
 
 test('public build never ships review-only photos', async ({ page, request }) => {
@@ -123,4 +123,29 @@ test('public build never ships review-only photos', async ({ page, request }) =>
   }
   const res = await request.get('/images/review/hi-sierra-2023/two-friends.jpg')
   expect(res.status()).toBe(404)
+})
+
+test('nothing covers the home hero on load', async ({ page }) => {
+  await page.goto('/')
+  const inHero = await page.evaluate(() => {
+    const hero = document.querySelector('main section')
+    const hit = document.elementFromPoint(innerWidth / 2, innerHeight / 2)
+    return !!hero && !!hit && hero.contains(hit)
+  })
+  expect(inHero).toBe(true)
+})
+
+// Regression: masked photos once never revealed in Chromium (the clipped element itself was observed).
+test('every masked photo reveals after scrolling past it', async ({ page }) => {
+  for (const path of ['/', '/about', '/join', '/parents', '/adventures/camp-hi-sierra-2023']) {
+    await page.goto(path)
+    const height = await page.evaluate(() => document.documentElement.scrollHeight)
+    for (let y = 0; y < height; y += 300) {
+      await page.evaluate((yy) => window.scrollTo(0, yy), y)
+      await page.waitForTimeout(40)
+    }
+    await page.waitForTimeout(400)
+    const hidden = await page.evaluate(() => [...document.querySelectorAll('[data-reveal="mask"]:not(.is-in)')].length)
+    expect(hidden, path).toBe(0)
+  }
 })

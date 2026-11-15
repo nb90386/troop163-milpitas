@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { PageHeader } from '@/components/page-header'
 import { Photo } from '@/components/photo'
+import { PhotoBand } from '@/components/photo-band'
 import { TripCover } from '@/components/trip-cover'
 import { adventures } from '@/content/adventures'
 import { maybe, pick } from '@/lib/photos'
@@ -39,6 +40,10 @@ export default function AdventuresPage() {
           </div>
         </Link>
       </section>
+
+      <div className="mt-[var(--section)]">
+        <PhotoBand photo={pick('tower-view')} />
+      </div>
 
       <section aria-labelledby="older-heading" className="frame py-[var(--section)]">
         <h2 id="older-heading" className="t-title">

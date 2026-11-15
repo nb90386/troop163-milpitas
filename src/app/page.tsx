@@ -12,7 +12,7 @@ import { albumStats, pick } from '@/lib/photos'
 
 export default function HomePage() {
   const days = week.map((d) => ({ ...d, image: pick(...d.photo) }))
-  const gathered = ['dawn-cabin', 'canoe-red', 'two-friends', 'archery-draw', 'opening-show', 'climbing-wall', 'sails-portrait', 'tents-evening', 'shelter-detail']
+  const gathered = ['sails-shallows', 'two-friends', 'archery-draw', 'opening-show', 'tents-evening', 'canoe-rescue', 'climbing-wall', 'sails-portrait', 'shelter-detail', 'berries', 'handicraft-sign', 'campsite-gate']
     .map((id) => {
       try {
         return pick(id)
@@ -31,7 +31,7 @@ export default function HomePage() {
       <Journal />
       <Gathered photos={gathered} total={albumStats.photos} />
       <BeforeVisit />
-      <Closing />
+      <Closing photo={pick('closing-campfire')} />
     </>
   )
 }

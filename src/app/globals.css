@@ -279,14 +279,19 @@ img {
     opacity: 1;
     transform: none;
   }
+  /* The observed element itself is never clipped: Chromium reports a fully
+     clipped target as not intersecting, so the reveal would never fire and the
+     photo stayed invisible. The wipe runs on its children instead. */
   html.js [data-reveal='mask'] {
     opacity: 1;
     transform: none;
+  }
+  html.js [data-reveal='mask'] > * {
     clip-path: inset(100% 0 0 0);
     transition: clip-path 1100ms var(--ease-in-out);
     transition-delay: calc(var(--i, 0) * 80ms);
   }
-  html.js [data-reveal='mask'].is-in {
+  html.js [data-reveal='mask'].is-in > * {
     clip-path: inset(0 0 0 0);
   }
 }
@@ -379,5 +384,15 @@ img {
   }
   to {
     transform: translateX(300%);
+  }
+}
+
+/* Scroll-linked motion components keep one DOM for every visitor; reduced motion freezes them here. */
+@media (prefers-reduced-motion: reduce) {
+  .rm-static {
+    transform: none !important;
+    opacity: 1 !important;
+    clip-path: none !important;
+    filter: none !important;
   }
 }

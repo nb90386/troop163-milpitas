@@ -3,10 +3,11 @@ import { ArrowRight } from 'lucide-react'
 import { Photo } from '@/components/photo'
 import { adventures } from '@/content/adventures'
 import { maybe, pick } from '@/lib/photos'
+import { coverTone } from '@/components/trip-cover'
 
 export function Journal() {
   const [feature, ...rest] = adventures
-  const strip = ['sail-rocks', 'welding', 'tower-view', 'archery-silhouettes', 'closing-campfire', 'canvas-tents', 'bouldering'].map((id) => pick(id))
+  const strip = ['sail-rocks', 'tower-view', 'campfire-silhouettes', 'survival-shelter', 'morning-assembly', 'lodge-dusk', 'camp-from-tower'].map((id) => pick(id))
   return (
     <section aria-labelledby="journal-heading" className="section">
       <div className="frame">
@@ -52,13 +53,13 @@ export function Journal() {
                   {cover ? (
                     <Photo photo={cover} ratio="4 / 3" sizes="(min-width: 768px) 30vw, 100vw" zoom />
                   ) : (
-                    <div className="on-dark flex aspect-[4/3] flex-col justify-between bg-forest p-6 text-forest-ink transition-colors duration-300 group-hover:bg-forest-2">
+                    <div className="on-dark flex aspect-[4/3] flex-col justify-between p-6 text-forest-ink transition-transform duration-300 ease-[var(--ease-out)] group-hover:-translate-y-1" style={{ background: coverTone(a.slug) }}>
                       <p className="t-small text-forest-soft">{a.who}</p>
                       <dl className="flex gap-8">
                         {a.stats.map((s) => (
                           <div key={s.label}>
                             <dt className="t-small text-forest-soft">{s.label}</dt>
-                            <dd className="font-display text-[clamp(2.5rem,4vw,3.75rem)] leading-none tracking-[-0.03em]">{s.value}</dd>
+                            <dd className="font-display text-[clamp(3rem,5vw,5rem)] leading-none tracking-[-0.03em]">{s.value}</dd>
                           </div>
                         ))}
                       </dl>
