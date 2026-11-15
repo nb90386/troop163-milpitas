@@ -1,0 +1,25 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.env*
+.vercel
+.DS_Store
+# Full-resolution originals and review scratch stay local (large, may contain metadata)
+source-assets/originals/
+source-assets/review-thumbs/
+source-assets/contact-sheets/
+source-assets/research/*.png
+# Review-only photos are copied in at build time for PHOTO_MODE=review
+public/images/review/
+test-results/
+playwright-report/
+.taste-skill/
+docs/qa/raw/
+
+# Youth photos awaiting media-release confirmation: never commit (deployed only to the protected review build via the Vercel CLI)
+media-review/
+# Album inventory holds the private share key; other troops' screenshots aren't ours to redistribute
+source-assets/
+docs/research/screens/

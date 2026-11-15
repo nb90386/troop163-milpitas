@@ -1,0 +1,383 @@
+@import 'tailwindcss';
+
+/* ───────────────────────── Tokens ─────────────────────────
+   Palette: granite paper + Sierra forest, with one ember-clay accent.
+   The clay was deepened from the brief's #C26C46 to #A9512F so white
+   button text passes WCAG AA (5.38:1). */
+:root {
+  --paper: #f3f0e8;
+  --paper-2: #e7e3d7;
+  --paper-3: #dcd6c6;
+  --ink: #1e2622;
+  --ink-soft: #4a524c;
+  --forest: #18352c;
+  --forest-2: #20443a;
+  --forest-ink: #f3f0e8;
+  --forest-soft: #b9c1ae;
+  --sage: #c2be9a;
+  --clay: #a9512f;
+  --clay-press: #924426;
+  --clay-tone: #c26c46;
+  --night: #0f1613;
+
+  --scrim: linear-gradient(to top, rgb(10 16 13 / 0.72), rgb(10 16 13 / 0.2) 55%, rgb(10 16 13 / 0));
+
+  /* type */
+  --font-display: var(--font-newsreader), 'Iowan Old Style', Georgia, serif;
+  --font-text: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --step-small: 0.875rem;
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.375rem, 1.1rem + 1vw, 2rem);
+  --step-head: clamp(2.5rem, 1.6rem + 3.6vw, 5rem);
+  --step-display: clamp(5rem, 2rem + 15vw, 17rem);
+
+  /* space */
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
+  --section: clamp(6rem, 4rem + 8vw, 13rem);
+  --measure: 34rem;
+  --radius: 2px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur-press: 140ms;
+  --dur-ui: 220ms;
+  --dur-reveal: 900ms;
+
+  /* layers */
+  --z-header: 40;
+  --z-menu: 60;
+  --z-lightbox: 80;
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-forest: var(--forest);
+  --color-forest-2: var(--forest-2);
+  --color-forest-ink: var(--forest-ink);
+  --color-forest-soft: var(--forest-soft);
+  --color-sage: var(--sage);
+  --color-clay: var(--clay);
+  --color-night: var(--night);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-text);
+}
+
+/* ───────────────────────── Base ───────────────────────── */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  scroll-padding-top: 5rem;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-body);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+::selection {
+  background: var(--forest);
+  color: var(--paper);
+}
+:focus-visible {
+  outline: 2px solid var(--clay);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+.on-dark :focus-visible,
+.on-dark:focus-visible {
+  outline-color: var(--sage);
+}
+img {
+  max-width: 100%;
+}
+
+/* Component classes live in the components layer so Tailwind utilities can override them. */
+@layer components {
+/* ───────────────────────── Type roles ───────────────────────── */
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--step-display);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: -0.045em;
+  font-variation-settings: 'opsz' 72;
+}
+.t-head {
+  font-family: var(--font-display);
+  font-size: var(--step-head);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  font-variation-settings: 'opsz' 72;
+  text-wrap: balance;
+}
+.t-lead {
+  font-family: var(--font-display);
+  font-size: var(--step-lead);
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  font-variation-settings: 'opsz' 36;
+  text-wrap: pretty;
+}
+.t-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 1.3rem + 1.2vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'opsz' 48;
+  text-wrap: balance;
+}
+.t-body {
+  font-size: var(--step-body);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.t-small {
+  font-size: var(--step-small);
+  line-height: 1.45;
+}
+.prose-journal p + p {
+  margin-top: 1.1em;
+}
+.prose-journal {
+  max-width: var(--measure);
+}
+
+/* ───────────────────────── Layout ───────────────────────── */
+.frame {
+  padding-inline: var(--gutter);
+  margin-inline: auto;
+  max-width: 1680px;
+}
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(0.75rem, 0.4rem + 1.2vw, 1.75rem);
+}
+.section {
+  padding-block: var(--section);
+}
+
+/* ───────────────────────── Controls ───────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0.85rem 1.35rem;
+  border-radius: var(--radius);
+  background: var(--clay);
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  transition:
+    transform var(--dur-press) var(--ease-out),
+    background-color var(--dur-ui) ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:hover {
+  background: var(--clay-press);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn svg {
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+.btn:hover svg {
+  transform: translateX(3px);
+}
+.btn-quiet {
+  background: var(--paper);
+  color: var(--ink);
+}
+.btn-quiet:hover {
+  background: #fff;
+}
+.btn-forest {
+  background: var(--forest);
+  color: var(--forest-ink);
+}
+.btn-forest:hover {
+  background: var(--forest-2);
+}
+
+.link {
+  text-decoration-line: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  transition: text-decoration-color var(--dur-ui) ease;
+}
+.link:hover {
+  text-decoration-color: currentColor;
+}
+.link-strong {
+  text-decoration-line: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: var(--clay-tone);
+  transition: text-decoration-color var(--dur-ui) ease;
+}
+.link-strong:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ───────────────────────── Photos ───────────────────────── */
+.photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-3);
+}
+.photo img {
+  object-fit: cover;
+  transition: opacity 600ms var(--ease-out);
+}
+.photo-zoom img {
+  transition:
+    transform 900ms var(--ease-out),
+    opacity 600ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .photo-zoom:hover img,
+  a:hover .photo-zoom img,
+  button:hover .photo-zoom img {
+    transform: scale(1.035);
+  }
+}
+
+}
+
+/* ───────────────────────── Reveal ─────────────────────────
+   Content is visible by default. Only when JS has run (html.js) and
+   motion is allowed do elements start hidden and rise into place. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  html.js [data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+  }
+  html.js [data-reveal='mask'] {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1100ms var(--ease-in-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  html.js [data-reveal='mask'].is-in {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Hero entrance — pure CSS so it runs before hydration */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo {
+    animation: hero-photo 1600ms var(--ease-out) both;
+  }
+  .hero-line {
+    animation: hero-line 1100ms var(--ease-out) both;
+    animation-delay: calc(250ms + var(--i, 0) * 90ms);
+  }
+  .hero-word {
+    display: inline-block;
+    animation: hero-word 1200ms var(--ease-out) both;
+    animation-delay: calc(150ms + var(--i, 0) * 70ms);
+  }
+}
+@keyframes hero-photo {
+  from {
+    transform: scale(1.06);
+    opacity: 0.3;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes hero-line {
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+}
+@keyframes hero-word {
+  from {
+    transform: translateY(0.35em);
+    opacity: 0;
+  }
+}
+
+@layer components {
+/* ───────────────────────── Misc ───────────────────────── */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.skip-link {
+  position: absolute;
+  left: var(--gutter);
+  top: -100px;
+  z-index: 100;
+  background: var(--forest);
+  color: var(--forest-ink);
+  padding: 0.75rem 1rem;
+}
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
+
+.footer-mark::before {
+  content: 'Troop 163';
+  display: block;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: min(21vw, 22rem);
+  line-height: 0.78;
+  letter-spacing: -0.045em;
+  font-variation-settings: 'opsz' 72;
+  color: var(--forest-2);
+  user-select: none;
+}
+
+@keyframes loadbar {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
