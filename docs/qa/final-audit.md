@@ -72,3 +72,22 @@ Screenshots: `docs/qa/screens/` (curated) and `docs/qa/raw/` (all passes, local 
 - Taste-skill `inspect.mjs`, the transitions-agent motion audit and the full Impeccable audit command. Equivalent checks were done with our own Playwright scripts and manual review, as described above. Running them is a reasonable next step.
 - Real-device testing (iOS Safari, Android Chrome). All browser testing used Chromium.
 - INP: not measurable in the lab; TBT stands in for it.
+
+## Round 2 (2026-11-15): "more visuals, less text, more fun"
+
+Prompted by leadership screenshots showing large blank areas on Home.
+
+**Root cause of the blank areas:** masked photo reveals clipped the observed element itself (`clip-path: inset(100% 0 0 0)`). Chromium reports a fully clipped target as never intersecting, so 4 of 10 masked photos on Home never revealed (WebKit was unaffected). The wipe now runs on the element's children. A second bug found during the pass: the new gallery-row photos had no positioned parent and covered the hero on phones. Both have regression tests (`every masked photo reveals after scrolling past it`, `nothing covers the home hero on load`).
+
+**Home, rebuilt around photos and motion (seven distinct scroll devices, none repeated back to back):**
+- Hero: photo and type layers move at different rates (layered parallax); shorter copy.
+- Intro: one sentence inks in word by word as it is read; three photos drift at different rates.
+- Week at Hi-Sierra: unchanged pinned horizontal scene (the peak).
+- Activities: five full-screen photo panels that stack, each sliding over the last while it sinks and dims. CSS sticky does the stacking, so it still works without JS or with reduced motion.
+- Scout-led: copy cut to two sentences; the facts panel fills out (service, area served).
+- Gallery: two full-width photo rows sliding in opposite directions with the scroll.
+- Close: the last campfire opens from a framed photo to the full screen, then "See you Monday." lands on it.
+
+Subpages: full-bleed parallax photo bands on About, Join and Adventures; photo-less trip covers now take distinct earth tones.
+
+**Results (live):** Playwright + axe 55 passed, 1 skipped. Lighthouse mobile: Home 98/100/100/100 (LCP 1.2 s), About 100/100/100/100, Join 100/100/100/100, Adventures 96/100/100/100. Desktop Home 100 across. One fix from Lighthouse: unread "inking" words started at 16% opacity (contrast 1.35:1); the floor is now 55% (about 3.5:1, AA for large text).
