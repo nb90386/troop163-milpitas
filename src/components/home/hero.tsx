@@ -16,8 +16,6 @@ export function Hero() {
           priority
           quality={75}
           sizes="(max-aspect-ratio: 3/2) 195vh, 100vw"
-          placeholder="blur"
-          blurDataURL={photo.blurDataURL}
           className="object-cover [object-position:12%_60%] md:[object-position:var(--pos)]"
           style={{ ['--pos' as string]: objectPosition(photo) }}
         />

@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_PHOTO_MODE: process.env.PHOTO_MODE === 'review' ? 'review' : 'public',
   },
+  async redirects() {
+    // Browsers and crawlers still ask for /favicon.ico; point them at the real icon.
+    return [{ source: '/favicon.ico', destination: '/favicon-48.png', permanent: true }]
+  },
   async headers() {
     return [
       {

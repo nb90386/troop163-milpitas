@@ -116,8 +116,6 @@ export function Gallery({ photos, categories }: { photos: Photo[]; categories: C
                     fill
                     sizes="(min-width: 1280px) 24vw, (min-width: 768px) 32vw, 48vw"
                     quality={60}
-                    placeholder="blur"
-                    blurDataURL={p.blurDataURL}
                     loading={i < 6 ? 'eager' : 'lazy'}
                     style={{ objectPosition: objectPosition(p) }}
                   />
@@ -232,8 +230,6 @@ function Lightbox({ photo, list, onClose, onStep }: { photo: Photo; list: Photo[
               fill
               sizes="100vw"
               quality={85}
-              placeholder="blur"
-              blurDataURL={photo.blurDataURL}
               onLoad={() => setLoaded(photo.id)}
               className="object-contain"
               draggable={false}

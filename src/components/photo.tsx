@@ -28,8 +28,6 @@ export function Photo({ photo, ratio, sizes, priority, className = '', zoom, qua
         sizes={sizes}
         priority={priority}
         quality={quality}
-        placeholder="blur"
-        blurDataURL={photo.blurDataURL}
         style={{ objectPosition: objectPosition(photo) }}
       />
     </div>
