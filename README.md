@@ -12,11 +12,13 @@ The website for Scouts BSA Troops 163 (boys) and 2163 (girls) in Milpitas, Calif
 npm install
 npm run dev          # http://localhost:3000
 npm run build && npm start
-npm run lint && npm run typecheck
+npm run lint && npm run typecheck   # on a fresh clone run `npx next typegen` (or `npm run dev`/`build`) first: route types like PageProps are generated into .next/
 npm run test:e2e     # Playwright + axe (run `npm run build` first, or set BASE_URL to a live URL)
 ```
 
 Node 24 is used on Vercel; 22 or newer works locally.
+
+Last verified 2026-11-22 on a fresh clone: `npm run lint` clean, `npm run typecheck` clean after `npx next typegen`. Build and Playwright e2e were not re-run for that check.
 
 ## Edit content
 
